@@ -9,16 +9,16 @@ import AppProvider from './hooks';
 import Routes from './routes';
 
 const App: React.FC = () => {
-    return (
-        <NavigationContainer>
-            <StatusBar barStyle="light-content" backgroundColor="#312e38" />
-            <AppProvider>
-                <View style={{ flex: 1, backgroundColor: '#312e38' }}>
-                    <Routes />
-                </View>
-            </AppProvider>
-        </NavigationContainer>
-    );
-}
+  return (
+    <NavigationContainer>
+      <StatusBar barStyle="light-content" backgroundColor="#28262e" />
+      <AppProvider>
+        <View style={{ flex: 1, backgroundColor: '#312e38' }}>
+          <Routes />
+        </View>
+      </AppProvider>
+    </NavigationContainer>
+  );
+};
 
 export default App;
