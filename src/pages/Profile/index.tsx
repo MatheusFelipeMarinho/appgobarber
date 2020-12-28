@@ -12,13 +12,13 @@ import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 import Icon from 'react-native-vector-icons/Feather';
-import ImagePicker from 'react-native-image-picker';
+//import ImagePicker from 'react-native-image-picker';
 
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 import getValidationErrors from '../../utils/getValidationErrors';
-import Button from '../../components/Button';
-import Input from '../../components/Input';
+import Button from '../../components/button';
+import Input from '../../components/input';
 
 import {
   Container,
@@ -112,45 +112,45 @@ const Profile: React.FC = () => {
 
         Alert.alert(
           'Erro na atualização do perfil',
-          'Ocorreu um erro ao atualizar o perfil, tente novamente.'
+          'Ocorreu um erro ao atualizar o perfil, tente novamente.',
         );
       }
     },
-    [navigation, updateUser]
+    [navigation, updateUser],
   );
 
-  const handleUpdateAvatar = useCallback(() => {
-    ImagePicker.showImagePicker(
-      {
-        title: 'Selecione um avatar',
-        cancelButtonTitle: 'Cancelar',
-        takePhotoButtonTitle: 'Usar câmera',
-        chooseFromLibraryButtonTitle: 'Escolher da galeria',
-      },
-      (response) => {
-        if (response.didCancel) {
-          return;
-        }
+  // const handleUpdateAvatar = useCallback(() => {
+  //   ImagePicker.showImagePicker(
+  //     {
+  //       title: 'Selecione um avatar',
+  //       cancelButtonTitle: 'Cancelar',
+  //       takePhotoButtonTitle: 'Usar câmera',
+  //       chooseFromLibraryButtonTitle: 'Escolher da galeria',
+  //     },
+  //     (response) => {
+  //       if (response.didCancel) {
+  //         return;
+  //       }
 
-        if (response.error) {
-          Alert.alert('Erro ao atualizar seu avatar.');
-          return;
-        }
+  //       if (response.error) {
+  //         Alert.alert('Erro ao atualizar seu avatar.');
+  //         return;
+  //       }
 
-        const data = new FormData();
+  //       const data = new FormData();
 
-        data.append('avatar', {
-          type: 'image/jpeg',
-          name: `${user.id}.jpg`,
-          uri: response.uri,
-        });
+  //       data.append('avatar', {
+  //         type: 'image/jpeg',
+  //         name: `${user.id}.jpg`,
+  //         uri: response.uri,
+  //       });
 
-        api
-          .patch('users/avatar', data)
-          .then((apiResponse) => updateUser(apiResponse.data));
-      }
-    );
-  }, [updateUser, user.id]);
+  //       api
+  //         .patch('users/avatar', data)
+  //         .then((apiResponse) => updateUser(apiResponse.data));
+  //     },
+  //   );
+  // }, [updateUser, user.id]);
 
   const handleGoBack = useCallback(() => {
     navigation.goBack();
@@ -172,7 +172,7 @@ const Profile: React.FC = () => {
               <Icon name="chevron-left" size={24} color="#999591" />
             </BackButton>
 
-            <UserAvatarButton onPress={handleUpdateAvatar}>
+            <UserAvatarButton onPress={() => {}}>
               <UserAvatar source={{ uri: user.avatar_url }} />
             </UserAvatarButton>
 
