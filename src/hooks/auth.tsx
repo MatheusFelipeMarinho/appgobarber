@@ -64,6 +64,8 @@ const AuthProvider: React.FC = ({ children }) => {
       password,
     });
 
+    await AsyncStorage.multiRemove(['@GoBarber:user', '@GoBarber:token']);
+
     const { token, user } = response.data;
 
     await AsyncStorage.multiSet([
@@ -84,7 +86,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const updateUser = useCallback(
     async (user: User) => {
-      await AsyncStorage.setItem('GoBarber:user', JSON.stringify(user));
+      await AsyncStorage.setItem('@GoBarber:user', JSON.stringify(user));
 
       setData({
         token: data.token,

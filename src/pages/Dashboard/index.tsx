@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import Button from '../../components/button';
 
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
@@ -33,6 +34,8 @@ const Dashboard: React.FC = () => {
 
   const { signOut, user } = useAuth();
   const { navigate } = useNavigation();
+
+  console.log(user);
 
   useEffect(() => {
     api.get('providers').then((response) => {
