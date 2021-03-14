@@ -4,6 +4,8 @@ import { Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Button from '../../components/button';
 
+import iconeImg from '../../assets/icone.png';
+
 import { useAuth } from '../../hooks/auth';
 import api from '../../services/api';
 import {
@@ -13,24 +15,27 @@ import {
   UserName,
   ProfileButton,
   UserAvatar,
-  ProvidersList,
-  ProviderContainer,
-  ProviderAvatar,
-  ProviderInfo,
-  ProviderName,
-  ProviderMeta,
-  ProviderMetaText,
-  ProvidersListTitle,
+  DevicesList,
+  DeviceContainer,
+  DeviceAvatar,
+  DeviceInfo,
+  DeviceName,
+  DeviceMeta,
+  DeviceMetaText,
+  DevicesListTitle,
+  DeviceTimestamp,
 } from './styles';
 
-export interface Provider {
+export interface Device {
   id: string;
+  oid: String;
   name: string;
-  avatar_url: string;
+  created_at: Date;
+  updated_at: Date;
 }
 
 const Dashboard: React.FC = () => {
-  const [providers, setProviders] = useState<Provider[]>([]);
+  const [devices, setDevices] = useState<Device[]>([]);
 
   const { signOut, user } = useAuth();
   const { navigate } = useNavigation();
@@ -38,8 +43,9 @@ const Dashboard: React.FC = () => {
   console.log(user);
 
   useEffect(() => {
-    api.get('providers').then((response) => {
-      setProviders(response.data);
+    api.get('device/list').then((response) => {
+      console.log(response);
+      setDevices(response.data);
     });
   }, []);
 
@@ -48,8 +54,8 @@ const Dashboard: React.FC = () => {
   }, [navigate]);
 
   const navigateToCreateAppointment = useCallback(
-    (providerId: string) => {
-      navigate('AppointmentDatePicker', { providerId });
+    (DeviceId: string) => {
+      navigate('AppointmentDatePicker', { DeviceId });
     },
     [navigate],
   );
@@ -63,34 +69,34 @@ const Dashboard: React.FC = () => {
         </HeaderTitle>
 
         <ProfileButton onPress={navigationToProfile}>
-          <UserAvatar source={{ uri: user.avatar_url }} />
+          <UserAvatar source={iconeImg} />
         </ProfileButton>
       </Header>
 
-      <ProvidersList
-        data={providers}
-        keyExtractor={(provider) => provider.id}
-        ListHeaderComponent={
-          <ProvidersListTitle>Cabelereiros</ProvidersListTitle>
-        }
-        renderItem={({ item: provider }) => (
-          <ProviderContainer
-            onPress={() => navigateToCreateAppointment(provider.id)}
+      <DevicesList
+        data={devices}
+        keyExtractor={(device) => device.id.toString()}
+        ListHeaderComponent={<DevicesListTitle>Totens</DevicesListTitle>}
+        renderItem={({ item: device }) => (
+          <DeviceContainer
+            onPress={() => navigateToCreateAppointment(device.id)}
           >
-            <ProviderAvatar source={{ uri: provider.avatar_url }} />
-
-            <ProviderInfo>
-              <ProviderName>{provider.name}</ProviderName>
-              <ProviderMeta>
+            <DeviceInfo>
+              <DeviceName>{device.name}</DeviceName>
+              <DeviceMeta>
                 <Icon name="calendar" size={14} color="#ff9000" />
-                <ProviderMetaText>Segunda à sexta</ProviderMetaText>
-              </ProviderMeta>
-              <ProviderMeta>
-                <Icon name="clock" size={14} color="#ff9000" />
-                <ProviderMetaText>8h às 18h</ProviderMetaText>
-              </ProviderMeta>
-            </ProviderInfo>
-          </ProviderContainer>
+                <DeviceMetaText>1 occorrencia aberta</DeviceMetaText>
+              </DeviceMeta>
+              <DeviceMeta>
+                <Icon name="calendar" size={14} color="#ff9000" />
+                <DeviceMetaText>1 ocorrencia iniciada</DeviceMetaText>
+              </DeviceMeta>
+              <DeviceMeta>
+                <Icon name="calendar" size={14} color="#ff9000" />
+                <DeviceMetaText>S1 ocorrencia feita</DeviceMetaText>
+              </DeviceMeta>
+            </DeviceInfo>
+          </DeviceContainer>
         )}
       />
     </Container>
