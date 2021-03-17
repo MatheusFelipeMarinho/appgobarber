@@ -33,7 +33,7 @@ export const Container = styled.ScrollView.attrs({
 export const Header = styled.View`
   padding: 24px;
   padding-top: ${getStatusBarHeight() + 24}px;
-  background: #28262e;
+  background: #6200ee;
   flex-direction: row;
   align-items: center;
 `;

@@ -19,32 +19,20 @@ interface RouteParams {
 
 const AppointmentCreated: React.FC = () => {
   const route = useRoute();
-  const { reset } = useNavigation();
+  const navigation = useNavigation();
   const params = route.params as RouteParams;
 
-  const formattedDate = useMemo(() => {
-    return format(
-      params.date,
-      "EEEE', dia' dd 'de' MMMM 'de' yyyy 'às' HH:mm'h'",
-      { locale: ptBR },
-    );
-  }, [params.date]);
-
-  const handleOk = useCallback(() => {
-    reset({
-      routes: [{ name: 'Dashboard' }],
-      index: 0,
-    });
-  }, [reset]);
+  function navigateDash() {
+    navigation.navigate('dashboard');
+  }
 
   return (
     <Container>
       <Icon name="check" size={80} color="#04d361" />
 
-      <Title>Agendamento concluído</Title>
-      <Description>{formattedDate}</Description>
+      <Title>Ordem Iniciada</Title>
 
-      <OkButton onPress={handleOk}>
+      <OkButton onPress={navigateDash}>
         <OkButtonText>Ok</OkButtonText>
       </OkButton>
     </Container>

@@ -1,8 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
-import Button from '../../components/button';
 
 import iconeImg from '../../assets/icone.png';
 
@@ -44,7 +42,6 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     api.get('device/list').then((response) => {
-      console.log(response);
       setDevices(response.data);
     });
   }, []);
@@ -54,11 +51,15 @@ const Dashboard: React.FC = () => {
   }, [navigate]);
 
   const navigateToCreateAppointment = useCallback(
-    (DeviceId: string) => {
-      navigate('AppointmentDatePicker', { DeviceId });
+    (DeviceId: string, DeviceName: string) => {
+      navigate('AppointmentDatePicker', { DeviceId, DeviceName });
     },
     [navigate],
   );
+
+  async function logOut() {
+    await signOut();
+  }
 
   return (
     <Container>
@@ -68,8 +69,8 @@ const Dashboard: React.FC = () => {
           <UserName>{user.name}</UserName>
         </HeaderTitle>
 
-        <ProfileButton onPress={navigationToProfile}>
-          <UserAvatar source={iconeImg} />
+        <ProfileButton onPress={logOut}>
+          <Icon name="power" size={30} color="#fff" />
         </ProfileButton>
       </Header>
 
@@ -79,20 +80,20 @@ const Dashboard: React.FC = () => {
         ListHeaderComponent={<DevicesListTitle>Totens</DevicesListTitle>}
         renderItem={({ item: device }) => (
           <DeviceContainer
-            onPress={() => navigateToCreateAppointment(device.id)}
+            onPress={() => navigateToCreateAppointment(device.id, device.name)}
           >
             <DeviceInfo>
               <DeviceName>{device.name}</DeviceName>
               <DeviceMeta>
-                <Icon name="calendar" size={14} color="#ff9000" />
+                <Icon name="calendar" size={14} color="#6200ee" />
                 <DeviceMetaText>1 occorrencia aberta</DeviceMetaText>
               </DeviceMeta>
               <DeviceMeta>
-                <Icon name="calendar" size={14} color="#ff9000" />
+                <Icon name="calendar" size={14} color="#6200ee" />
                 <DeviceMetaText>1 ocorrencia iniciada</DeviceMetaText>
               </DeviceMeta>
               <DeviceMeta>
-                <Icon name="calendar" size={14} color="#ff9000" />
+                <Icon name="calendar" size={14} color="#6200ee" />
                 <DeviceMetaText>S1 ocorrencia feita</DeviceMetaText>
               </DeviceMeta>
             </DeviceInfo>

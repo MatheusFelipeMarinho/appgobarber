@@ -11,7 +11,7 @@ export const Container = styled.View`
 export const Title = styled.Text`
   font-family: 'RobotoSlab-Medium';
   font-size: 32px;
-  color: #f4ede8;
+  color: #312e38;
   margin-top: 48px;
   text-align: center;
 `;
@@ -25,7 +25,7 @@ export const Description = styled.Text`
 
 export const OkButton = styled(RectButton)`
   padding: 12px 24px;
-  background: #ff9000;
+  background: #6200ee;
   justify-content: center;
   align-items: center;
   border-radius: 10px;

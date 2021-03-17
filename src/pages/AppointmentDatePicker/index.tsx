@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/Feather';
-import { format } from 'date-fns';
+import { ActivityIndicator, View } from 'react-native';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 const Tab = createMaterialTopTabNavigator();
 
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { Platform, Alert } from 'react-native';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth';
 
@@ -30,12 +29,16 @@ export interface Provider {
 }
 
 interface RouteParams {
-  providerId: string;
+  DeviceId: string;
+  DeviceName: string;
 }
 
-interface AvailabilityItem {
-  hour: number;
-  available: boolean;
+export interface Device {
+  id: string;
+  oid: String;
+  name: string;
+  created_at: Date;
+  updated_at: Date;
 }
 
 const AppointmentDatePicker: React.FC = () => {
@@ -44,32 +47,16 @@ const AppointmentDatePicker: React.FC = () => {
   const navigation = useNavigation();
   const params = route.params as RouteParams;
 
-  const [selectedProvider, setSelectedProvider] = useState<string>(
-    params.providerId,
-  );
+  const deviceName = params.DeviceName;
 
-  const [providers, setProviders] = useState<Provider[]>([]);
+  const [device, setDevice] = useState<Device>();
 
   useEffect(() => {
-    api.get('providers').then((response) => {
-      setProviders(response.data);
+    api.get('device/' + params.DeviceId).then((response) => {
+      console.log(response.data);
+      setDevice(response.data);
     });
-  }, []);
-
-  const handleCreateAppointment = useCallback(async () => {
-    try {
-      await api.post('appointments', {
-        provider_id: selectedProvider,
-      });
-
-      navigation.navigate('AppointmentCreated');
-    } catch (err) {
-      Alert.alert(
-        'Erro ao criar agendamento',
-        'Ocorreu um erro ao tentar criar o agendamento, tente novamente!',
-      );
-    }
-  }, [selectedProvider, navigation]);
+  }, [setDevice]);
 
   return (
     <>
@@ -77,12 +64,18 @@ const AppointmentDatePicker: React.FC = () => {
         <BackButton onPress={() => navigation.goBack()}>
           <Icon name="chevron-left" size={24} color="#999591" />
         </BackButton>
-        <HeaderTitle>Totem aqui</HeaderTitle>
+        <HeaderTitle>{deviceName}</HeaderTitle>
 
         <UserAvatar source={{ uri: user.avatar_url }} />
       </Header>
       <Container>
-        <Tab.Navigator>
+        <Tab.Navigator
+          tabBarOptions={{
+            activeTintColor: 'tomato',
+            inactiveTintColor: 'gray',
+            showIcon: true,
+          }}
+        >
           <Tab.Screen name="A Fazer" component={TodoList} />
           <Tab.Screen name="Fazendo" component={DoingList} />
           <Tab.Screen name="Feito" component={DoneList} />

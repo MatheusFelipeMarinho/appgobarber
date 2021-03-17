@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { FlatList } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
-import { Orders } from '.';
+import { Order } from '.';
 
 export const Container = styled.View`
   flex: 1;
@@ -13,15 +13,15 @@ export const UserName = styled.Text`
   font-family: 'RobotoSlab-Medium';
 `;
 
-export const TodoListFlat = styled(
-  FlatList as new () => FlatList<Orders>,
-).attrs({
-  contentContainerStyle: {
-    paddingTop: 8,
-    paddingBottom: 16,
-    paddingHorizontal: 8,
+export const TodoListFlat = styled(FlatList as new () => FlatList<Order>).attrs(
+  {
+    contentContainerStyle: {
+      paddingTop: 16,
+      paddingBottom: 16,
+      paddingHorizontal: 8,
+    },
   },
-})``;
+)``;
 
 export const TodoListTitle = styled.Text`
   font-family: 'RobotoSlab-Medium';
@@ -49,6 +49,7 @@ export const TodoListAvatar = styled.Image`
 export const TodoListInfo = styled.View`
   flex: 1;
   margin-left: 20px;
+  padding-left: 8px;
 `;
 
 export const TodoListName = styled.Text`
@@ -74,4 +75,18 @@ export const TodoListTimestamp = styled.Text`
   color: #999591;
   font-family: 'RobotoSlab-Regular';
   font-size: 14px;
+`;
+
+export const TodoListButton = styled(RectButton)`
+  padding: 12px 24px 12px 24px;
+  background: #6200ee;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+`;
+
+export const ButtonText = styled.Text`
+  font-family: 'RobotoSlab-Medium';
+  color: #fff;
+  font-size: 16px;
 `;
