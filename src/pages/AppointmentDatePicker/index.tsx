@@ -4,8 +4,6 @@ import { ActivityIndicator, View } from 'react-native';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-const Tab = createMaterialTopTabNavigator();
-
 import { useRoute, useNavigation } from '@react-navigation/native';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/auth';
@@ -43,20 +41,20 @@ export interface Device {
 
 const AppointmentDatePicker: React.FC = () => {
   const { user } = useAuth();
+
   const route = useRoute();
+
   const navigation = useNavigation();
+
   const params = route.params as RouteParams;
 
   const deviceName = params.DeviceName;
 
+  const deviceId = params.DeviceId;
+
   const [device, setDevice] = useState<Device>();
 
-  useEffect(() => {
-    api.get('device/' + params.DeviceId).then((response) => {
-      console.log(response.data);
-      setDevice(response.data);
-    });
-  }, [setDevice]);
+  const Tab = createMaterialTopTabNavigator();
 
   return (
     <>
@@ -76,9 +74,21 @@ const AppointmentDatePicker: React.FC = () => {
             showIcon: true,
           }}
         >
-          <Tab.Screen name="A Fazer" component={TodoList} />
-          <Tab.Screen name="Fazendo" component={DoingList} />
-          <Tab.Screen name="Feito" component={DoneList} />
+          <Tab.Screen
+            name="A Fazer"
+            component={TodoList}
+            initialParams={{ params }}
+          />
+          <Tab.Screen
+            name="Fazendo"
+            component={DoingList}
+            initialParams={{ params }}
+          />
+          <Tab.Screen
+            name="Feito"
+            component={DoneList}
+            initialParams={{ params }}
+          />
         </Tab.Navigator>
       </Container>
     </>

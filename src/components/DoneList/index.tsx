@@ -32,16 +32,23 @@ export interface Order {
   updated_at: Date;
 }
 
+interface RouteParams {
+  params: {
+    DeviceId: string;
+    DeviceName: string;
+  };
+}
+
 const DoneList: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
 
   const { user } = useAuth();
   const route = useRoute();
   const navigation = useNavigation();
-  // const params = route.params as RouteParams;
+  const params = route.params as RouteParams;
 
   useEffect(() => {
-    api.get('orders/list/done').then((response) => {
+    api.get('orders/list/done/' + params.params.DeviceId).then((response) => {
       setOrders(response.data.data);
     });
   }, []);

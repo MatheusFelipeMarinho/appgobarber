@@ -34,29 +34,31 @@ export interface Order {
 }
 
 interface RouteParams {
-  DeviceId: String;
-  DeviceName: String;
+  params: {
+    DeviceId: string;
+    DeviceName: string;
+  };
 }
-
 interface Props {
-  deviceId: string;
+  DeviceId: string;
+  DeviceName: string;
 }
 
-const TodoList: React.FC<Props> = ({ deviceId, ...rest }) => {
+const TodoList: React.FC<Props> = ({ DeviceId, DeviceName }) => {
   const [orders, setOrders] = useState<Order[]>([]);
 
   const { user } = useAuth();
+
   const route = useRoute();
+
   const navigation = useNavigation();
+
   const params = route.params as RouteParams;
 
   useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-  }, []);
-
-  useEffect(() => {
     console.log(params);
-    api.get('orders/list/todo').then((response) => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+    api.get('orders/list/todo/' + params.params.DeviceId).then((response) => {
       setOrders(response.data.data);
     });
   }, []);

@@ -94,8 +94,7 @@ export const DeviceMetaText = styled.Text`
 `;
 
 export const DeviceTimestamp = styled.Text`
-  margin-left: 8px;
-  color: #999591;
+  color: #6200ee;
   font-family: 'RobotoSlab-Regular';
   font-size: 14px;
 `;

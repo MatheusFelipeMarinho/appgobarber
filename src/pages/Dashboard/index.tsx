@@ -26,10 +26,16 @@ import {
 
 export interface Device {
   id: string;
-  oid: String;
+  oid: string;
   name: string;
-  created_at: Date;
-  updated_at: Date;
+  contract: {
+    name: string;
+  };
+  __meta__: {
+    todo: number;
+    doing: number;
+    done: number;
+  };
 }
 
 const Dashboard: React.FC = () => {
@@ -42,6 +48,7 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     api.get('device/list').then((response) => {
+      console.log(response.data);
       setDevices(response.data);
     });
   }, []);
@@ -83,18 +90,24 @@ const Dashboard: React.FC = () => {
             onPress={() => navigateToCreateAppointment(device.id, device.name)}
           >
             <DeviceInfo>
-              <DeviceName>{device.name}</DeviceName>
+              <DeviceName>{device.name} </DeviceName>
+
+              <DeviceTimestamp>{device.contract.name}</DeviceTimestamp>
+
               <DeviceMeta>
-                <Icon name="calendar" size={14} color="#6200ee" />
-                <DeviceMetaText>1 occorrencia aberta</DeviceMetaText>
+                <DeviceMetaText>
+                  {device.__meta__.todo} ocorrências a fazer
+                </DeviceMetaText>
               </DeviceMeta>
               <DeviceMeta>
-                <Icon name="calendar" size={14} color="#6200ee" />
-                <DeviceMetaText>1 ocorrencia iniciada</DeviceMetaText>
+                <DeviceMetaText>
+                  {device.__meta__.doing} ocorrências fazendo
+                </DeviceMetaText>
               </DeviceMeta>
               <DeviceMeta>
-                <Icon name="calendar" size={14} color="#6200ee" />
-                <DeviceMetaText>S1 ocorrencia feita</DeviceMetaText>
+                <DeviceMetaText>
+                  {device.__meta__.done} ocorrências feitas
+                </DeviceMetaText>
               </DeviceMeta>
             </DeviceInfo>
           </DeviceContainer>

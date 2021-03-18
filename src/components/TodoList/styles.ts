@@ -83,6 +83,7 @@ export const TodoListButton = styled(RectButton)`
   justify-content: center;
   align-items: center;
   border-radius: 10px;
+  margin: 2px;
 `;
 
 export const ButtonText = styled.Text`
