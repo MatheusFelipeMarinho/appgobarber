@@ -59,13 +59,10 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const signIn = useCallback(async ({ email, password }) => {
-    console.log(email);
     const response = await api.post('auth/login', {
       email,
       password,
     });
-
-    await AsyncStorage.multiRemove(['@GoBarber:user', '@GoBarber:token']);
 
     const { token, user } = response.data;
 
@@ -74,7 +71,7 @@ const AuthProvider: React.FC = ({ children }) => {
       ['@GoBarber:user', JSON.stringify(user)],
     ]);
 
-    api.defaults.headers.authorization = `Bearer ${token[1]}`;
+    //api.defaults.headers.authorization = `Bearer ${token[1]}`;
 
     setData({ token, user });
   }, []);
